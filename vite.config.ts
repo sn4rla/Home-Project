@@ -4,6 +4,7 @@
   import path from 'path';
 
   export default defineConfig({
+    base: '/Home-Project/', // ✅ This is the key fix for GitHub Pages
     plugins: [react()],
     resolve: {
       extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
