@@ -7,6 +7,7 @@ import { Label } from './ui/label'
 import { Alert, AlertDescription } from './ui/alert'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs'
 import { Home, Building } from 'lucide-react'
+import { supabase } from '../supabaseClient'
 
 export function Auth() {
   const [email, setEmail] = useState('')
@@ -28,18 +29,31 @@ export function Auth() {
   }
 
   const handleSignUp = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
-    setError(null)
+  e.preventDefault()
+  setLoading(true)
+  setError(null)
 
-    const { error } = await signUp(email, password)
+  try {
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+    })
+
     if (error) {
-      setError(error.message)
+      setError(`Error: ${error.message}`)
+      console.error(error)
     } else {
-      setError('Check your email for the confirmation link!')
+      setError('Signup successful! Check your email for confirmation.')
+      console.log('Supabase signup response:', data)
     }
+  } catch (err) {
+    console.error(err)
+    setError('An unexpected error occurred.')
+  } finally {
     setLoading(false)
   }
+}
+
 
   const handleGuestAccess = () => {
     signInAsGuest()
