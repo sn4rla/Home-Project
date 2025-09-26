@@ -1,51 +1,17 @@
-import { projectId, publicAnonKey } from '../utils/supabase/info';
+// src/lib/supabase.ts
 
-// Create a mock supabase client for demo mode
-const createMockSupabase = () => ({
-  auth: {
-    getSession: () => Promise.resolve({ data: { session: null }, error: null }),
-    onAuthStateChange: () => ({ data: { subscription: { unsubscribe: () => {} } } }),
-    signInWithPassword: () => Promise.resolve({ error: { message: 'Demo mode - please complete Supabase database setup' } }),
-    signUp: () => Promise.resolve({ error: { message: 'Demo mode - please complete Supabase database setup' } }),
-    signOut: () => Promise.resolve({ error: null })
-  },
-  from: () => ({
-    select: () => Promise.resolve({ data: [], error: { message: 'Demo mode - please complete Supabase database setup' } }),
-    insert: () => Promise.resolve({ data: null, error: { message: 'Demo mode - please complete Supabase database setup' } }),
-    update: () => Promise.resolve({ data: null, error: { message: 'Demo mode - please complete Supabase database setup' } }),
-    delete: () => Promise.resolve({ data: null, error: { message: 'Demo mode - please complete Supabase database setup' } })
-  })
-});
+import { createClient } from '@supabase/supabase-js'
 
-// Try to create real Supabase client using provided credentials, fall back to mock
-let supabase: any;
+// Read credentials from environment variables
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string
 
-try {
-  // Use the credentials from info.tsx
-  const supabaseUrl = `https://${projectId}.supabase.co`;
-  const supabaseAnonKey = publicAnonKey;
-  
-  if (projectId && publicAnonKey) {
-    const { createClient } = require('@supabase/supabase-js');
-    supabase = createClient(supabaseUrl, supabaseAnonKey);
-    
-    // Test the connection by trying to get the current session
-    // This will help us know if the database is properly set up
-    supabase.auth.getSession().catch(() => {
-      // If it fails, it might be that the database isn't set up yet
-      console.log('Supabase credentials loaded, but database might need setup');
-    });
-  } else {
-    // Credentials not available, use mock
-    supabase = createMockSupabase();
-  }
-} catch (error) {
-  // Package not available or other error, use mock
-  console.log('Supabase package not available, using demo mode');
-  supabase = createMockSupabase();
+if (!supabaseUrl || !supabaseAnonKey) {
+  throw new Error('Missing Supabase environment variables. Check .env.local')
 }
 
-export { supabase };
+// Create the real Supabase client
+export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
 // Database schema for reference:
 /*
