@@ -3,7 +3,17 @@ import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 import { Progress } from './ui/progress';
 import { Alert, AlertDescription } from './ui/alert';
-import { Home, TrendingUp, Calendar, DollarSign, Plus, ChevronRight, Hammer, CheckCircle, Settings } from 'lucide-react';
+import {
+  Home,
+  TrendingUp,
+  Calendar,
+  DollarSign,
+  Plus,
+  ChevronRight,
+  Hammer,
+  CheckCircle,
+  Settings,
+} from 'lucide-react';
 import { Home as HomeType, Project, HomeHistoryEntry } from '../types/project';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { useAuth } from '../contexts/AuthContext';
@@ -15,18 +25,20 @@ interface HomeDashboardProps {
   onCreateProject: () => void;
   onViewProjects: () => void;
   onViewProject: (projectId: string) => void;
+  onCreateHome: () => void;
 }
 
-export function HomeDashboard({ 
-  home, 
-  projects, 
-  homeHistory, 
-  onCreateProject, 
+export function HomeDashboard({
+  home,
+  projects,
+  homeHistory,
+  onCreateProject,
   onViewProjects,
-  onViewProject 
+  onViewProject,
+  onCreateHome,
 }: HomeDashboardProps) {
   const { isGuest } = useAuth();
-  // Handle case where home data is not available
+
   if (!home) {
     return (
       <div className="space-y-6">
@@ -39,9 +51,9 @@ export function HomeDashboard({
             <p className="text-sm text-muted-foreground mb-6">
               This app helps you track home improvement projects and their impact on your property value.
             </p>
-            <Button onClick={onCreateProject} className="w-full max-w-xs">
+            <Button onClick={onCreateHome} className="w-full max-w-xs">
               <Plus className="h-4 w-4 mr-2" />
-              Start Your First Project
+              Create Your Home
             </Button>
           </CardContent>
         </Card>
