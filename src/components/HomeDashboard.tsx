@@ -25,31 +25,36 @@ export function HomeDashboard({
   onViewProjects,
   onViewProject 
 }: HomeDashboardProps) {
-  const { isGuest } = useAuth();
-  // Handle case where home data is not available
-  if (!home) {
-    return (
-      <div className="p-6 text-center text-red-500">
+const { isGuest } = useAuth();
+
+// ❗ Return early if no home is found
+if (!home) {
+  return (
+    <div className="p-6 text-center text-red-500">
       ⚠️ Error: Home not found.
-      </div>
-      <div className="space-y-6">
-        <Card>
-          <CardContent className="py-12 text-center">
-            <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-4">
-              <Home className="h-8 w-8 text-muted-foreground" />
-            </div>
-            <h4 className="font-medium mb-2">Welcome to HomeProject Pro</h4>
-            <p className="text-sm text-muted-foreground mb-6">
-              This app helps you track home improvement projects and their impact on your property value.
-            </p>
-            <Button onClick={onCreateProject} className="w-full max-w-xs">
-              <Plus className="h-4 w-4 mr-2" />
-              Start Your First ProjectTest
-            </Button>
-          </CardContent>
-        </Card>
-      </div>
-    );
+    </div>
+  );
+}
+
+return (
+  <div className="space-y-6">
+    <Card>
+      <CardContent className="py-12 text-center">
+        <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-4">
+          <Home className="h-8 w-8 text-muted-foreground" />
+        </div>
+        <h4 className="font-medium mb-2">Welcome to HomeProject Pro</h4>
+        <p className="text-sm text-muted-foreground mb-6">
+          This app helps you track home improvement projects and their impact on your property value.
+        </p>
+        <Button onClick={onCreateProject} className="w-full max-w-xs">
+          <Plus className="h-4 w-4 mr-2" />
+          Start Your First ProjectTest
+        </Button>
+      </CardContent>
+    </Card>
+  </div>
+);
   }
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
