@@ -41,7 +41,7 @@ export function HomeDashboard({
             </p>
             <Button onClick={onCreateProject} className="w-full max-w-xs">
               <Plus className="h-4 w-4 mr-2" />
-              Start Your First ProjectTest
+              Start Your First Project
             </Button>
           </CardContent>
         </Card>
