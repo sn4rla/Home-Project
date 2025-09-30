@@ -29,6 +29,9 @@ export function HomeDashboard({
   // Handle case where home data is not available
   if (!home) {
     return (
+      <div className="p-6 text-center text-red-500">
+      ⚠️ Error: Home not found.
+      </div>
       <div className="space-y-6">
         <Card>
           <CardContent className="py-12 text-center">
