@@ -31,7 +31,7 @@ const { isGuest } = useAuth();
 if (!home) {
   return (
     <div className="p-6 text-center text-red-500">
-      ⚠️ Error: Home not found.
+      Error: Home not found.
     </div>
   );
 }
